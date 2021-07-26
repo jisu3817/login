@@ -24,8 +24,10 @@ const process = {
         req.session.user = req.body.id;
         req.session.is_logined = true;
         response.session = req.session;
+        
+        res.status(200).json(response);
       }
-      return res.status(200).json(response);
+      else res.status(401).json(response);
     }
   }
 };
