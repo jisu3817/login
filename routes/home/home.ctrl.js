@@ -26,10 +26,10 @@ const process = {
         req.session.is_logined = true;
         req.session.save(() => {
           res.status(200).json(response);
-        })  
-      }
+        });
+      } 
       else res.status(401).json(response);
-    }
+    };
   },
   
   logout: (req, res) => {
@@ -43,7 +43,7 @@ const process = {
 
     if (response.success) {
       res.status(200).json(response);
-    }
+    } 
     else res.status(400).json(response);
   },
   
