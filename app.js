@@ -1,10 +1,13 @@
 "use strict";
 const express = require('express');
-const indexRouter = require('./routes/home/index');
+const app = express();
+
 const cors = require('cors');
+const bcrypt = require ('bcrypt');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-const app = express();
+
+const indexRouter = require('./routes/home/index');
 
 app.set('views', './views');
 app.set('view engine', 'ejs');

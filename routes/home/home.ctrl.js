@@ -1,7 +1,9 @@
 "use strict";
 
+const { response } = require("express");
 const session = require("express-session");
 const User = require("../../models/User");
+const UserStorage = require("../../models/UserStorage");
 
 const output = {
   home: (req, res) => {
@@ -32,6 +34,11 @@ const process = {
     }
   },
   
+  logout: (req, res) => {
+    req.session.destroy();
+    res.status(200).json({ success: true });
+  },
+
   register: async (req, res) => {
     const user = new User(req.body);
     const response = await user.register();
@@ -40,6 +47,16 @@ const process = {
       res.status(200).json(response);
     }
     else res.status(400).json(response);
+  },
+  
+  check: async (req, res) => {
+    if (req.session.is_logined) {
+      const userId = req.session.user;
+      const user = await UserStorage.getUserInfo(userId);
+
+      res.status(200).json({success: true, name: user.id});
+    }
+    else res.status(400).json({success: false});
   }
 };
 
