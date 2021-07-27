@@ -18,7 +18,7 @@ class userStorage {
     return new Promise ((resolve, reject) => {
       const bcryt = { saltRounds: 10 }; 
 
-        bcrypt.hash(userInfo.password, bcryt.saltRounds , (err, hash) => {
+        bcrypt.hashSync(userInfo.password, bcryt.saltRounds , (err, hash) => {
           userInfo.password = hash;
           const query = "INSERT INTO users(id, name, password) VALUES(?, ?, ? )";
 

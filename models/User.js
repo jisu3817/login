@@ -10,11 +10,10 @@ class User {
   async login() {
     const user = this.body;
     try {
-      const { id, password } = await UserStorage.getUserInfo(user.id);
-      console.log(id, password);
-
+      const { id, password } = await UserStorage.getUserInfo(user.id) || {};
+      
       if (id && id === user.id) {
-        if (bcrypt.compare(user.password, password)) {
+        if (bcrypt.compareSync(user.password, password)) {
           return { success: true};
         }
         return { succcess: false, msg: "비밀번호가 틀렸습니다." };
