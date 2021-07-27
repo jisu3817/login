@@ -1,5 +1,6 @@
 "use strict";
 
+const session = require("express-session");
 const User = require("../../models/User");
 
 const output = {
@@ -23,12 +24,22 @@ const process = {
       if (response.success) {
         req.session.user = req.body.id;
         req.session.is_logined = true;
-        response.session = req.session;
-        
-        res.status(200).json(response);
+        req.session.save(() => {
+          res.status(200).json(response);
+        })  
       }
       else res.status(401).json(response);
     }
+  },
+  
+  register: async (req, res) => {
+    const user = new User(req.body);
+    const response = await user.register();
+
+    if (response.success) {
+      res.status(200).json(response);
+    }
+    else res.status(400).json(response);
   }
 };
 

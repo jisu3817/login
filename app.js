@@ -9,13 +9,11 @@ const app = express();
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
+app.set('trust proxy', 1);
 app.use(cors({
-    origin: 'https://co-work-front.herokuapp.com',
+    origin: true,
     credentials: true,
 }));
-app.use(express.static(`${__dirname}/public`));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 app.use(session({
     secret: 'Secret',
@@ -23,13 +21,16 @@ app.use(session({
     saveUninitialized: true,
     store:new FileStore(),
     cookie: {
-        SameSite: 'none',
+        sameSite: 'none',
         secure: true,
         httpOnly: true,
     }
 }));
 
-app.use('/', indexRouter);
+app.use(express.static(`${__dirname}/public`));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+app.use('/', indexRouter);
 
 module.exports = app;
